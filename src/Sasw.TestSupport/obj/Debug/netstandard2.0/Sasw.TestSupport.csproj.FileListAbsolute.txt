@@ -1,0 +1,8 @@
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\bin\Debug\netstandard2.0\Sasw.TestSupport.deps.json
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\bin\Debug\netstandard2.0\Sasw.TestSupport.dll
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\bin\Debug\netstandard2.0\Sasw.TestSupport.pdb
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\obj\Debug\netstandard2.0\Sasw.TestSupport.csprojAssemblyReference.cache
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\obj\Debug\netstandard2.0\Sasw.TestSupport.AssemblyInfoInputs.cache
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\obj\Debug\netstandard2.0\Sasw.TestSupport.AssemblyInfo.cs
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\obj\Debug\netstandard2.0\Sasw.TestSupport.dll
+D:\src\sasw\sasw-test-support\src\Sasw.TestSupport\obj\Debug\netstandard2.0\Sasw.TestSupport.pdb
