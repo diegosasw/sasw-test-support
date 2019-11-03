@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Description>Project that contains abstract classes for given-then-when testing approach</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>Diego Martin</Authors>
+    <Company>Sunny Attic Software</Company>
+  </PropertyGroup>
+
+</Project>

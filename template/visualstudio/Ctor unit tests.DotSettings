@@ -1,0 +1,47 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Description/@EntryValue">Ctor unit tests</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Text/@EntryValue">using FluentAssertions;&#xD;
+using Sasw.TestSupport;&#xD;
+using Xunit;&#xD;
+&#xD;
+namespace $NAMESPACE$&#xD;
+{&#xD;
+    public static class ConstructorTests&#xD;
+	{&#xD;
+		public class Given_Valid_Dependencies_When_Constructing_Instance&#xD;
+			: Given_When_Then_Test&#xD;
+		{&#xD;
+			private $CLASS$ _sut;&#xD;
+&#xD;
+			protected override void Given()&#xD;
+			{$END$&#xD;
+			}&#xD;
+&#xD;
+			protected override void When()&#xD;
+			{&#xD;
+				_sut = new $CLASS$();&#xD;
+			}&#xD;
+&#xD;
+			[Fact]&#xD;
+			public void Then_It_Should_Have_Created_A_Valid_Instance()&#xD;
+			{&#xD;
+				_sut.Should().NotBeNull();&#xD;
+			}&#xD;
+		}&#xD;
+	}&#xD;
+}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/CustomProperties/=FileName/@EntryIndexedValue">ConstructorTests</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=NAMESPACE/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=NAMESPACE/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B1990E27E1077E45AACA0D9FA65B71A5/Field/=CLASS/Order/@EntryValue">1</s:Int64></wpf:ResourceDictionary>
