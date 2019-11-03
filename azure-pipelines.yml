@@ -1,0 +1,23 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Restore
+    steps:
+    - script: dotnet restore --no-cache --force
+    - script: dotnet build --configuration Release
+    - script: dotnet vstest test/*Tests/bin/Release/**/*Tests.dll
+  - job: Build
+    steps:
+    - script: dotnet build --configuration Release
+    - script: dotnet vstest test/*Tests/bin/Release/**/*Tests.dll
+- stage: Pack
+  jobs:
+  - job: TestOnWindows
+    steps:
+    - script: echo TODO pack
