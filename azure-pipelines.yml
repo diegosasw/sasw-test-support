@@ -5,18 +5,16 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 stages:
-- stage: Build
+- stage: CI
   jobs:
-  - job: Restore
+  - job: Build
     steps:
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
-  - job: Build
+    - script: dotnet build --configuration Release
+  - job: UnitTests
     steps:
-    - script: dotnet build --configuration Release --no-restore
-  - job: Tests
-    steps:
-    - script: dotnet vstest test/*Tests/bin/Release/**/*Tests.dll
+    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
 - stage: Package
   jobs:
   - job: Pack
