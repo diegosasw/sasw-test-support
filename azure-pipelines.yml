@@ -11,8 +11,9 @@ stages:
     steps:
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
-    - script: dotnet build --configuration Release
+    - script: dotnet build --configuration Release --no-restore
   - job: UnitTests
+    dependsOn: Build
     steps:
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
 - stage: Package
