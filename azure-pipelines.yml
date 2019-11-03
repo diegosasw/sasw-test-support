@@ -9,15 +9,16 @@ stages:
   jobs:
   - job: Restore
     steps:
+    - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
-    - script: dotnet build --configuration Release
-    - script: dotnet vstest test/*Tests/bin/Release/**/*Tests.dll
   - job: Build
     steps:
-    - script: dotnet build --configuration Release
+    - script: dotnet build --configuration Release --no-restore
+  - job: Tests
+    steps:
     - script: dotnet vstest test/*Tests/bin/Release/**/*Tests.dll
-- stage: Pack
+- stage: Package
   jobs:
-  - job: TestOnWindows
+  - job: Pack
     steps:
     - script: echo TODO pack
