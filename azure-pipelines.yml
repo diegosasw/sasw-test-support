@@ -12,10 +12,7 @@ stages:
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
     - script: dotnet build --configuration Release --no-restore
-  - job: UnitTests
-    dependsOn: Build
-    steps:
-    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+    - script: dotnet vstest test/*UnitTests/bin/**/**/*UnitTests.dll
 - stage: Package
   jobs:
   - job: Pack
