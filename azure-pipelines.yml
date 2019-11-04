@@ -14,7 +14,7 @@ stages:
   jobs:
   - job: Build
     steps:
-    - task: echo $(NUGET_FOLDER_NAME) $(PRERELEASE_SUFFIX)
+    - script: echo $(NUGET_FOLDER_NAME) $(PRERELEASE_SUFFIX)
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
     - script: dotnet build --configuration Release --no-restore
