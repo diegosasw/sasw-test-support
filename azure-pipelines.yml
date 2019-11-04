@@ -1,20 +1,34 @@
 trigger:
 - master
+- feature/*
 
 pool:
   vmImage: 'ubuntu-18.04'
+
+variables:
+  NUGET_FOLDER_NAME: nupkgs
+  PIPELINE_ID: $(System.DefinitionId)
+  PRERELEASE_SUFFIX: $(System.DefinitionId)
 
 stages:
 - stage: CI
   jobs:
   - job: Build
     steps:
+    - task: echo $(NUGET_FOLDER_NAME) $(VERSION_SUFFIX) $()
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
     - script: dotnet build --configuration Release --no-restore
-    - script: dotnet vstest test/*UnitTests/bin/**/**/*UnitTests.dll
-- stage: Package
-  jobs:
-  - job: Pack
+    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
+      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: $(Build.ArtifactStagingDirectory)/$(NUGET_FOLDER_NAME)
+        artifactName: MyBuildOutputs
+  - job: Publish
     steps:
-    - script: echo TODO pack
+    - task: DownloadBuildArtifacts@0
+    - script: ls
