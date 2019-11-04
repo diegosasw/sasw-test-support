@@ -7,7 +7,6 @@ pool:
 
 variables:
   NUGET_FOLDER_NAME: nupkgs
-  PIPELINE_ID: $(System.DefinitionId)
   PRERELEASE_SUFFIX: $(System.DefinitionId)
 
 stages:
@@ -15,7 +14,7 @@ stages:
   jobs:
   - job: Build
     steps:
-    - task: echo $(NUGET_FOLDER_NAME) $(VERSION_SUFFIX) $()
+    - task: echo $(NUGET_FOLDER_NAME) $(PRERELEASE_SUFFIX)
     - task: NuGetAuthenticate@0
     - script: dotnet restore --no-cache --force
     - script: dotnet build --configuration Release --no-restore
