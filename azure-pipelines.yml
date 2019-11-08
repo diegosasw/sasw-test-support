@@ -42,7 +42,7 @@ stages:
     steps:
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
       displayName: 'Pack'
-  - job: 'Pack Release'
+  - job:
     displayName: 'Pack Stable Version'
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     steps:
