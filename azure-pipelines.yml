@@ -25,27 +25,22 @@ stages:
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
       displayName: 'Run unit tests'
       condition: succeeded()
-    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
-      displayName: 'Run unit tests'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
-      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-#- stage: 'PackPrerelease'
-#  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-#  jobs:
-#  - job: 
-#    steps:
-#    - script: echo Executing pack erelease
-#    - script: ls
-#    - script: ls $(Pipeline.Workspace)
-#- stage: 'PackRelease'
-#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-#  jobs:
-#  - job: 
-#    steps:
-#    - script: echo Executing pack prerelease
-#    - script: ls
-#    - script: ls $(Pipeline.Workspace)
+- stage: 'PackPrerelease'
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: 
+    steps:
+    - script: echo Executing pack erelease
+    - script: ls
+    - script: ls $(Pipeline.Workspace)
+- stage: 'PackRelease'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: 
+    steps:
+    - script: echo Executing pack prerelease
+    - script: ls
+    - script: ls $(Pipeline.Workspace)
 
 #stages:
 #- stage: CI
