@@ -9,7 +9,7 @@ variables:
   NUGET_FOLDER_NAME: nupkgs
   NUGET_REPOSITORY: https://whatever
   PRERELEASE_SUFFIX: $(Build.BuildId)
-  ARTIFACTS_STAGING_DIR: $(Pipeline.Workspace)/$(NUGET_FOLDER_NAME)
+  PIPELINE_ARTIFACT_NAME: $(Build.Repository.Name)
 
 stages:
 - stage:
@@ -23,6 +23,8 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
+    - publish: $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
+      artifact: $(PIPELINE_ARTIFACT_NAME)
 - stage:
   displayName: 'Automated Tests'
   condition: succeeded()
@@ -30,6 +32,12 @@ stages:
   - job:
     displayName: 'Unit Tests'
     steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
     - script: ls -a
       displayName: 'View'
     - script: ls ./test
