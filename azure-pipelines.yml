@@ -25,4 +25,4 @@ stages:
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-    - scritp: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
+    - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
