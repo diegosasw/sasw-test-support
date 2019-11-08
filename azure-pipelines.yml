@@ -12,7 +12,7 @@ variables:
   ARTIFACTS_STAGING_DIR: $(Pipeline.Workspace)/$(NUGET_FOLDER_NAME)
 
 stages:
-- stage: 'Build'
+- stage:
   displayName: 'Build'
   jobs:
   - job: 'Build'
@@ -23,23 +23,27 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
-- stage: 'AutomatedTests'
+- stage:
   displayName: 'Automated Tests'
   condition: succeeded()
   jobs:
-  - job: 'Unit Tests'
+  - job:
+    displayName: 'Unit Tests'
     steps:
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
       displayName: 'Run unit tests'
-- stage: 'Pack'
+- stage:
+  displayName: 'NuGet Package'
   condition: succeeded()
   jobs:
-  - job: 'Pack PreRelease'
+  - job:
+    displayName: 'Pack Preview Version'
     condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
     steps:
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
       displayName: 'Pack'
   - job: 'Pack Release'
+    displayName: 'Pack Stable Version'
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     steps:
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
