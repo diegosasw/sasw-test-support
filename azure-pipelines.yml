@@ -34,8 +34,8 @@ stages:
       displayName: 'View'
     - script: ls ./test
       displayName: 'View test'
-    - script: ls ./test/Sasw.TestSupport.UnitTests/bin
-      displayName: 'View bin'
+    - script: ls ./test/Sasw.TestSupport.UnitTests
+      displayName: 'View folder'
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
       displayName: 'Run unit tests'
 - stage:
