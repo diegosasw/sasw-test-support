@@ -3,26 +3,62 @@ trigger:
 - feature/*
 
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: ubuntu-latest
 
 variables:
   NUGET_FOLDER_NAME: nupkgs
   NUGET_REPOSITORY: https://whatever
   PRERELEASE_SUFFIX: $(Build.BuildId)
-  ARTIFACTS_STAGING_DIR: $(Build.ArtifactStagingDirectory)/$(NUGET_FOLDER_NAME)
+  ARTIFACTS_STAGING_DIR: $(Pipeline.Workspace)/$(NUGET_FOLDER_NAME)
 
 stages:
-- stage: CI
+- stage: Build
   jobs:
-  - job: Build
+  - job: 
     steps:
-    - script: echo $(NUGET_FOLDER_NAME) $(PRERELEASE_SUFFIX)
     - task: NuGetAuthenticate@0
+      displayName: 'Authenticate in NuGet feed'
     - script: dotnet restore --no-cache --force
+      displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
+      displayName: 'Build for Release'
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+      displayName: 'Run unit tests'
+      condition: succeeded()
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+      displayName: 'Run unit tests'
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
     - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
+- stage: Pack Prerelease
+  condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: 
+    steps:
+    - script: echo Executing pack erelease
+    - script: ls
+    - script: ls $(Pipeline.Workspace)
+- stage: Pack Release
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: 
+    steps:
+    - script: echo Executing pack prerelease
+    - script: ls
+    - script: ls $(Pipeline.Workspace)
+
+#stages:
+#- stage: CI
+#  jobs:
+#  - job: 
+#    steps:
+#    - task: NuGetAuthenticate@0
+#    - script: dotnet restore --no-cache --force
+#    - script: dotnet build --configuration Release --no-restore
+#    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+#    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+#      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+#    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
+#      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+#    - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
