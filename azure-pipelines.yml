@@ -13,6 +13,7 @@ variables:
 
 stages:
 - stage: 'Build'
+  displayName: 'Build'
   jobs:
   - job: 'Build for Release'
     steps:
@@ -22,7 +23,8 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
-- stage: 'Automated Tests'
+- stage: 'AutomatedTests'
+  displayName: 'Automated Tests'
   condition: succeeded()
   jobs:
   - job: 'Unit Tests'
