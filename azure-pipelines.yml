@@ -14,7 +14,7 @@ variables:
 stages:
 - stage: 'Build'
   jobs:
-  - job: 
+  - job: 'Build for Release'
     steps:
     - task: NuGetAuthenticate@0
       displayName: 'Authenticate in NuGet feed'
@@ -22,16 +22,26 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
+- stage: 'Automated Tests'
+  condition: succeeded()
+  jobs:
+  - job: 'Unit Tests'
+    steps:
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
       displayName: 'Run unit tests'
-      condition: succeeded()
-- stage: 'PackPrerelease'
+- stage: 'Pack'
+  condition: succeeded()
   jobs:
-  - job: 
+  - job: 'Pack PreRelease'
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
     steps:
-    - script: echo Executing pack erelease
-    - script: ls
-    - script: ls $(Pipeline.Workspace)
+    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+      displayName: 'Pack'
+  - job: 'Pack Release'
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    steps:
+    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
+      displayName: 'Pack'
 
 #stages:
 #- stage: CI
