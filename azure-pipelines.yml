@@ -8,6 +8,7 @@ pool:
 variables:
   NUGET_FOLDER_NAME: nupkgs
   PRERELEASE_SUFFIX: $(Build.BuildId)
+  ARTIFACTS_STAGING_DIR: $(Build.ArtifactStagingDirectory)/$(NUGET_FOLDER_NAME)
 
 stages:
 - stage: CI
@@ -19,14 +20,14 @@ stages:
     - script: dotnet restore --no-cache --force
     - script: dotnet build --configuration Release --no-restore
     - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
-    - script: mkdir $(NUGET_FOLDER_NAME)
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
       condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+    - script: mkdir $(ARTIFACTS_STAGING_DIR)
     - task: PublishBuildArtifacts@1
       inputs:
-        pathToPublish: $(Build.ArtifactStagingDirectory)/$(NUGET_FOLDER_NAME)
+        pathToPublish: $(ARTIFACTS_STAGING_DIR)
         artifactName: MyBuildOutputs
   - job: Publish
     steps:
