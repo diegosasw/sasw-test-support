@@ -23,7 +23,10 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
+    - script: mkdir $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
+      displayName: 'Create folder'
     - publish: $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
+      artifact: $(PIPELINE_ARTIFACT_NAME)
 - stage:
   displayName: 'Automated Tests'
   condition: succeeded()
