@@ -15,7 +15,7 @@ stages:
 - stage: 'Build'
   displayName: 'Build'
   jobs:
-  - job: 'Build for Release'
+  - job: 'Build'
     steps:
     - task: NuGetAuthenticate@0
       displayName: 'Authenticate in NuGet feed'
