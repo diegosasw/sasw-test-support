@@ -39,7 +39,7 @@ stages:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
+        downloadPath: '$(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)'
     - script: ls -a
       displayName: 'View'
     - script: ls ./test
