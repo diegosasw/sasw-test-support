@@ -25,7 +25,7 @@ stages:
       displayName: 'Build for Release'
     - script: ls $(System.DefaultWorkingDirectory)
       displayName: 'List content'
-    - publish: $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
+    - publish: $(System.DefaultWorkingDirectory)
       artifact: $(PIPELINE_ARTIFACT_NAME)
 - stage:
   displayName: 'Automated Tests'
