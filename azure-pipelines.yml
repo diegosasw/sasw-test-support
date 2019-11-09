@@ -30,10 +30,6 @@ stages:
             condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
           - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
             condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
-          - script: pwd & ls
-            displayName: 'Display contents'
-          - script: ls $(System.DefaultWorkingDirectory)/$(NUGET_FOLDER_NAME)
-            displayName: 'Display contents of nuget'
           - publish: $(System.DefaultWorkingDirectory)/$(NUGET_FOLDER_NAME)
             artifact: $(PIPELINE_ARTIFACT_NAME)
             displayName: 'Publish pipeline artifact'
@@ -44,13 +40,11 @@ stages:
       - job: 'Publish'
         displayName: 'Publish nuGet package'
         steps:
-          - script: pwd & ls
-            displayName: 'Display contents'
           - download: current
             artifact: $(PIPELINE_ARTIFACT_NAME)
             displayName: 'Download pipeline artifact'
-          - script: ls $(Pipeline.Workspace)/$(PIPELINE_ARTIFACT_NAME)
-            displayName: 'Display contents of downloaded things'
+          - script: cd $(Pipeline.Workspace)/$(PIPELINE_ARTIFACT_NAME)
+            displayName: 'Move to downloaded artifact folder'
           - script: pwd & ls
             displayName: 'Display contents'
           - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
