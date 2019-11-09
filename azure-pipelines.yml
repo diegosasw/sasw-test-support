@@ -9,7 +9,6 @@ variables:
   NUGET_FOLDER_NAME: nupkgs
   NUGET_REPOSITORY: https://whatever
   PRERELEASE_SUFFIX: $(Build.BuildId)
-  PIPELINE_ARTIFACT_NAME: $(System.DefinitionId)
 
 stages:
 - stage:
@@ -34,12 +33,8 @@ stages:
   - job:
     displayName: 'Unit Tests'
     steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)'
+    - download: current
+      artifact: $(PIPELINE_ARTIFACT_NAME)
     - script: ls -a
       displayName: 'View'
     - script: ls ./test
