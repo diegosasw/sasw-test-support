@@ -43,10 +43,6 @@ stages:
           - download: current
             artifact: $(PIPELINE_ARTIFACT_NAME)
             displayName: 'Download pipeline artifact'
-          - script: cd $(Pipeline.Workspace)/$(PIPELINE_ARTIFACT_NAME)
-            displayName: 'Moves to artifact folder'
-          - script: ls -a
-            displayName: 'Lists contents of folder'
           - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
             displayName: 'Uploads nuGet packages'
 
