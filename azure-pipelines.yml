@@ -22,7 +22,7 @@ stages:
             displayName: 'Authenticate in NuGet feed'
           - script: dotnet restore --no-cache --force
             displayName: 'Restore dependencies'
-          - dotnet build --configuration Release --no-restore
+          - script: dotnet build --configuration Release --no-restore
             displayName: 'Build for Release'
           - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
             displayName: 'Run unit tests'
