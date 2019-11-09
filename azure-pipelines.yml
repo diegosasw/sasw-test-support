@@ -28,8 +28,10 @@ stages:
             displayName: 'Run unit tests'
           - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
             condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+            displayName: 'Create release nuGet'
           - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
             condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+            displayName: 'Create pre-release nuGet'
           - publish: $(System.DefaultWorkingDirectory)/$(NUGET_FOLDER_NAME)
             artifact: $(PIPELINE_ARTIFACT_NAME)
             displayName: 'Publish pipeline artifact'
@@ -47,7 +49,7 @@ stages:
             displayName: 'Move to downloaded artifact folder'
           - script: pwd & ls
             displayName: 'Display contents'
-          - script: dotnet nuget push **/*.nupkg --source $NUGET_REPOSITORY
+          - script: dotnet nuget push $(Pipeline.Workspace)/$(PIPELINE_ARTIFACT_NAME)/**/*.nupkg --source SunnyAtticSoftware --api-key AzureDevOps
             displayName: 'Uploads nuGet packages'
 
 #stages:
