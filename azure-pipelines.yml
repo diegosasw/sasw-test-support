@@ -23,7 +23,7 @@ stages:
       displayName: 'Restore dependencies'
     - script: dotnet build --configuration Release --no-restore
       displayName: 'Build for Release'
-    - script: ls $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
+    - script: ls $(System.DefaultWorkingDirectory)
       displayName: 'List content'
     - publish: $(System.DefaultWorkingDirectory)/$(PIPELINE_ARTIFACT_NAME)
       artifact: $(PIPELINE_ARTIFACT_NAME)
