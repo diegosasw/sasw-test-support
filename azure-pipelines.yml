@@ -9,6 +9,7 @@ variables:
   NUGET_FOLDER_NAME: nupkgs
   NUGET_REPOSITORY: https://whatever
   PRERELEASE_SUFFIX: $(Build.BuildId)
+  PIPELINE_ARTIFACT_NAME: $(Build.BuildNumber)
 
 stages:
 - stage:
