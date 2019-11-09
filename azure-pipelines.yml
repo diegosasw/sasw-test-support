@@ -32,7 +32,7 @@ stages:
           - script: dotnet restore --no-cache --force
             displayName: 'Restore dependencies'
           - script: dotnet build --configuration Release --no-restore
-            displayName: 'Build for Release'
+            displayName: 'Build with Release Configuration'
           - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
             displayName: 'Run unit tests'
           - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
