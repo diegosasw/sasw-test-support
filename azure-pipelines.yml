@@ -3,63 +3,86 @@ trigger:
 - feature/*
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-18.04
 
 variables:
   NUGET_FOLDER_NAME: nupkgs
   NUGET_REPOSITORY: https://whatever
-  PRERELEASE_SUFFIX: $(Build.BuildId)
+  PRERELEASE_SUFFIX: beta$(Build.BuildId)
   PIPELINE_ARTIFACT_NAME: $(Build.BuildNumber)
 
 stages:
-- stage:
-  displayName: 'Build'
-  jobs:
-  - job: 'Build'
-    steps:
-    - task: NuGetAuthenticate@0
-      displayName: 'Authenticate in NuGet feed'
-    - script: dotnet restore --no-cache --force
-      displayName: 'Restore dependencies'
-    - script: dotnet build --configuration Release --no-restore
-      displayName: 'Build for Release'
-    - script: ls $(System.DefaultWorkingDirectory)
-      displayName: 'List content'
-    - publish: $(System.DefaultWorkingDirectory)
-      artifact: $(PIPELINE_ARTIFACT_NAME)
-- stage:
-  displayName: 'Automated Tests'
-  condition: succeeded()
-  jobs:
-  - job:
-    displayName: 'Unit Tests'
-    steps:
-    - download: current
-      artifact: $(PIPELINE_ARTIFACT_NAME)
-    - script: ls -a
-      displayName: 'View'
-    - script: ls ./test
-      displayName: 'View test'
-    - script: ls ./test/Sasw.TestSupport.UnitTests
-      displayName: 'View folder'
-    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
-      displayName: 'Run unit tests'
-- stage:
-  displayName: 'NuGet Package'
-  condition: succeeded()
-  jobs:
-  - job:
-    displayName: 'Pack Preview Version'
-    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
-    steps:
-    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
-      displayName: 'Pack'
-  - job:
-    displayName: 'Pack Stable Version'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    steps:
-    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
-      displayName: 'Pack'
+  - stage:
+    displayName: 'Create nuGet'
+    jobs:
+      - job: 'Build'
+        displayName: 'Create nuGet package'
+        steps:
+          - task: NuGetAuthenticate@0
+            displayName: 'Authenticate in NuGet feed'
+          - script: dotnet restore --no-cache --force
+            displayName: 'Restore dependencies'
+          - dotnet build --configuration Release --no-restore
+            displayName: 'Build for Release'
+          - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+            displayName: 'Run unit tests'
+          - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+            condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+          - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
+            condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+          - publish: $(System.DefaultWorkingDirectory)/$(NUGET_FOLDER_NAME)
+            artifact: $(PIPELINE_ARTIFACT_NAME)
+
+#stages:
+#- stage:
+#  displayName: 'Create nuGet package'
+#  jobs:
+#  - job: 'Build'
+#    displayName: 'Create nuGet package'
+#    steps:
+#    - task: NuGetAuthenticate@0
+#      displayName: 'Authenticate in NuGet feed'
+#    - script: dotnet restore --no-cache --force
+#      displayName: 'Restore dependencies'
+#    - script: dotnet build --configuration Release --no-restore
+#      displayName: 'Build for Release'
+#    - script: ls $(System.DefaultWorkingDirectory)
+#      displayName: 'List content'
+#    - publish: $(System.DefaultWorkingDirectory)
+#      artifact: $(PIPELINE_ARTIFACT_NAME)
+#- stage:
+#  displayName: 'Automated Tests'
+#  condition: succeeded()
+#  jobs:
+#  - job:
+#    displayName: 'Unit Tests'
+#    steps:
+#    - download: current
+#      artifact: $(PIPELINE_ARTIFACT_NAME)
+#    - script: ls -a
+#      displayName: 'View'
+#    - script: ls ./test
+#      displayName: 'View test'
+#    - script: ls ./test/Sasw.TestSupport.UnitTests
+#      displayName: 'View folder'
+#    - script: dotnet vstest test/*UnitTests/bin/Release/**/*UnitTests.dll
+#      displayName: 'Run unit tests'
+#- stage:
+#  displayName: 'NuGet Package'
+#  condition: succeeded()
+#  jobs:
+#  - job:
+#    displayName: 'Pack Preview Version'
+#    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+#    steps:
+#    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME)
+#      displayName: 'Pack'
+#  - job:
+#    displayName: 'Pack Stable Version'
+#    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+#    steps:
+#    - script: dotnet pack *.sln --configuration Release --output $(NUGET_FOLDER_NAME) --version-suffix $(PRERELEASE_SUFFIX) --include-source --include-symbols -p:SymbolPackageFormat=snupkg
+#      displayName: 'Pack'
 
 #stages:
 #- stage: CI
