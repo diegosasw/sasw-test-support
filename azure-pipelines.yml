@@ -22,7 +22,7 @@ variables:
 
 stages:
   - stage:
-    displayName: 'Create nuGet'
+    displayName: 'Build'
     jobs:
       - job: 'Build'
         displayName: 'Build & Create nuGet Package'
@@ -45,7 +45,7 @@ stages:
             artifact: $(PIPELINE_ARTIFACT_NAME)
             displayName: 'Publish pipeline artifact'
   - stage:
-    displayName: 'Publish nuGet'
+    displayName: 'Release'
     condition: succeeded()
     jobs:
       - job: 'Publish'
