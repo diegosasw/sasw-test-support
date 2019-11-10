@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Sasw.TestSupport
+﻿namespace Sasw.TestSupport
 {
+    using System;
+    using System.Threading.Tasks;
+
     public abstract class Given_WhenAsync_Then_Test
         : IDisposable
     {

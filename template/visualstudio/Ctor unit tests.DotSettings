@@ -7,7 +7,7 @@ using Xunit;&#xD;
 &#xD;
 namespace $NAMESPACE$&#xD;
 {&#xD;
-    public static class ConstructorTests&#xD;
+		public static class ConstructorTests&#xD;
 	{&#xD;
 		public class Given_Valid_Dependencies_When_Constructing_Instance&#xD;
 			: Given_When_Then_Test&#xD;

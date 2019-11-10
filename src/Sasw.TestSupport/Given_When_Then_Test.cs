@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Sasw.TestSupport
+﻿namespace Sasw.TestSupport
 {
+    using System;
+
     public abstract class Given_When_Then_Test
         : IDisposable
     {

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Sasw.TestSupport
+﻿namespace Sasw.TestSupport
 {
+    using System;
+
     public static class GuidGenerator
     {
         public static Guid Create(int number)

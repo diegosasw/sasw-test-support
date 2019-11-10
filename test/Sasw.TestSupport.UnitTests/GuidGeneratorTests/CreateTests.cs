@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
-using System;
-using Xunit;
-
-namespace Sasw.TestSupport.UnitTests.GuidGeneratorTests
+﻿namespace Sasw.TestSupport.UnitTests.GuidGeneratorTests
 {
+    using System;
+    using FluentAssertions;
+    using Xunit;
+
     public static class CreateTests
     {
         public class Given_An_Integer_When_Creating

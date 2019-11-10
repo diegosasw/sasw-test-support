@@ -1,0 +1,21 @@
+<Project>
+	<PropertyGroup Label="SDK Versions">
+		<NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
+		<NetCoreTargetVersion>netcoreapp3.0</NetCoreTargetVersion>
+		<NetTestSdk>16.4.0</NetTestSdk>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package Information">
+		<Authors>Diego Martin</Authors>
+		<Company>Sunny Attic Software</Company>
+		<PackageTags>SunnyAtticSoftware;Templates;TDD;GivenThenWhen;UnitTest</PackageTags>
+		<PackageIcon>logo.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package Versions">
+		<FluentAssertions>5.*</FluentAssertions>
+		<XUnit>2.*</XUnit>
+		<XUnitRunnerVisualStudio>2.*</XUnitRunnerVisualStudio>
+	</PropertyGroup>
+</Project>
