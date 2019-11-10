@@ -58,5 +58,5 @@ stages:
             displayName: 'Display contents of downloaded articacts path'
           - task: NuGetAuthenticate@0
             displayName: 'Authenticate in NuGet feed'
-          - script: dotnet nuget push $(PATH_PIPELINE_ARTIFACT_NAME)/**/*.nupkg --source $(NUGET_FEED) --api-key $(NUGET_API_KEY)
+          - script: dotnet nuget push $(PATH_PIPELINE_ARTIFACT_NAME)/**/*.nupkg --source $(NUGET_FEED) --api-key $(NUGET_API_KEY) --skip-duplicate
             displayName: 'Uploads nuGet packages'
