@@ -59,10 +59,11 @@ stages:
           - task: NuGetAuthenticate@0
             displayName: 'Authenticate in NuGet feed'
           - task: UseDotNet@2
-            displayName: 'Use .NET Core sdk 3.1 (preview)'
+            displayName: 'Use latest .NET Core sdk 3.x'
             inputs:
               packageType: sdk
-              version: '3.1.100-preview2-014569'
+              version: 3.x
+              includePreviewVersions: true
               installationPath: $(Agent.ToolsDirectory)/dotnet
           - script: dotnet nuget push $(PATH_PIPELINE_ARTIFACT_NAME)/**/*.nupkg --source $(NUGET_FEED) --api-key $(NUGET_API_KEY) --skip-duplicate
             displayName: 'Uploads nuGet packages'
