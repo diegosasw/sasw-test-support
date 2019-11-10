@@ -10,7 +10,7 @@
 		<Authors>Diego Martin</Authors>
 		<Company>Sunny Attic Software</Company>
 		<PackageTags>SunnyAtticSoftware;Templates;TDD;GivenThenWhen;UnitTest</PackageTags>
-		<PackageIcon>./logo.png</PackageIcon>
+		<PackageIcon>https://i.postimg.cc/XJy78d8f/logo64x64transparent.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
