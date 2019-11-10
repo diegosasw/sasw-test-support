@@ -2,6 +2,9 @@ trigger:
 - master
 - feature/*
 
+pool:
+  vmImage: ubuntu-18.04
+
 variables:
   - group: sasw-common-variables
   - name: NUGET_FOLDER_NAME
@@ -16,11 +19,6 @@ variables:
     value: $(nuget-feed)
   - name: PRERELEASE_SUFFIX
     value: $(nuget-prerelease-suffix)
-  - name: UBUNTU_IMAGE
-    value: $(microsoft-hosted-image-linux)
-
-pool:
-  vmImage: $(UBUNTU_IMAGE)
 
 stages:
   - stage:
