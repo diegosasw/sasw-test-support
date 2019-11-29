@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
     <Description>Project that contains abstract classes for given-then-when testing approach</Description>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
   </PropertyGroup>
 
 </Project>
